@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartQ - Now Serving Display</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .display-container {
+            text-align: center;
+            width: 100%;
+            max-width: 1200px;
+        }
+        
+        .header {
+            margin-bottom: 50px;
+        }
+        
+        .header h1 {
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.5rem;
+            opacity: 0.9;
+        }
+        
+        .now-serving {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 60px;
+            margin-bottom: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .label {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        
+        .service-name {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+        
+        .ticket-number {
+            font-size: 8rem;
+            font-weight: bold;
+            margin: 30px 0;
+            letter-spacing: 5px;
+            text-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        .counter-info {
+            font-size: 3rem;
+            margin-top: 20px;
+        }
+        
+        .waiting-info {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .waiting-count {
+            font-size: 2rem;
+            opacity: 0.9;
+        }
+        
+        .no-service {
+            font-size: 2rem;
+            opacity: 0.7;
+            padding: 40px;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        .time {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="time" id="currentTime"></div>
+    
+    <div class="display-container">
+        <div class="header">
+            <h1>🎯 SmartQ</h1>
+            <p>Queue Management System</p>
+        </div>
+        
+        <div id="displayContent">
+            <div class="no-service">
+                Select a service to display
+            </div>
+        </div>
+        
+        <div class="waiting-info">
+            <div class="waiting-count" id="waitingCount">
+                Waiting: 0
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentServiceId = 1; // Default to first service
+        
+        // Update time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = 
+                now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+        }
+        
+        // Load now serving
+        async function loadNowServing() {
+            try {
+                const response = await fetch(`/client/api/now-serving/${currentServiceId}`);
+                const data = await response.json();
+                
+                const container = document.getElementById('displayContent');
+                
+                if (data.now_serving) {
+                    container.innerHTML = `
+                        <div class="now-serving">
+                            <div class="label">NOW SERVING</div>
+                            <div class="service-name">${data.service_name}</div>
+                            <div class="ticket-number">${data.now_serving}</div>
+                            <div class="counter-info">Please proceed to ${data.counter}</div>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML = `
+                        <div class="now-serving">
+                            <div class="service-name">${data.service_name}</div>
+                            <div class="no-service">No client being served</div>
+                            <div class="counter-info">${data.counter}</div>
+                        </div>
+                    `;
+                }
+                
+                document.getElementById('waitingCount').textContent = 
+                    `Waiting: ${data.waiting_count}`;
+                    
+            } catch (error) {
+                console.error('Error loading display:', error);
+            }
+        }
+        
+        // Initialize
+        updateTime();
+        setInterval(updateTime, 1000);
+        
+        loadNowServing();
+        setInterval(loadNowServing, 5000); // Refresh every 5 seconds
+        
+        // Allow changing service via URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const serviceId = urlParams.get('service');
+        if (serviceId) {
+            currentServiceId = serviceId;
+        }
+    </script>
+</body>
+</html>

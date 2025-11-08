@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartQ - Client Kiosk</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- <link rel="stylesheet" href="../static/css/style.css"> -->
+</head>
+<body>
+    <div class="kiosk-container">
+        <header class="kiosk-header">
+            <h1>🎯 SmartQ</h1>
+            <p class="subtitle">Queue Management System</p>
+        </header>
+
+        <div id="step1" class="kiosk-step active">
+            <h2>Select Organization</h2>
+            <div id="organizationsList" class="cards-grid"></div>
+        </div>
+
+        <div id="step2" class="kiosk-step">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <h2>Select Service</h2>
+            <div id="servicesList" class="cards-grid"></div>
+        </div>
+
+        <div id="step3" class="kiosk-step">
+            <button class="back-btn" onclick="goBack()">← Back</button>
+            <h2>Enter Your Phone Number</h2>
+            <div class="phone-form">
+                <input type="tel" id="phoneInput" placeholder="+250788123456" maxlength="13">
+                <button class="primary-btn" onclick="joinQueue()">Get Ticket</button>
+            </div>
+            <p class="info-text">You'll receive an SMS confirmation</p>
+        </div>
+
+        <div id="step4" class="kiosk-step">
+            <div class="ticket-result">
+                <div class="success-icon">✓</div>
+                <h2>Ticket Generated</h2>
+                <div class="ticket-card">
+                    <div class="ticket-number" id="ticketNumber">Q123456</div>
+                    <div class="ticket-info">
+                        <p><strong>Service:</strong> <span id="serviceName"></span></p>
+                        <p><strong>Counter:</strong> <span id="counterNumber"></span></p>
+                        <p><strong>Position:</strong> #<span id="queuePosition"></span></p>
+                        <p><strong>Estimated Wait:</strong> <span id="estimatedWait"></span> min</p>
+                    </div>
+                </div>
+                <p class="info-text">SMS sent to your phone</p>
+                <button class="primary-btn" onclick="startOver()">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/client.js') }}"></script>
+    <!-- <script src="../static/js/client.js"></script> -->
+</body>
+</html>

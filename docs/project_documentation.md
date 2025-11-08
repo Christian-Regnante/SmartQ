@@ -499,63 +499,65 @@ mysqldump -u user -p smartq_db > backup_$(date +%Y%m%d).sql
 **Pattern**: Model-View-Controller (MVC) with RESTful API
 
 ```
+
 ┌─────────────────────────────────────────────────┐
-│                   CLIENT LAYER                   │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐     │
-│  │  Kiosk   │  │   Staff  │  │  Admin   │     │
-│  │ (Browser)│  │(Browser) │  │(Browser) │     │
-│  └────┬─────┘  └────┬─────┘  └────┬─────┘     │
-│       │AJAX         │AJAX          │AJAX        │
-└───────┼─────────────┼──────────────┼───────────┘
+│                   CLIENT LAYER                  │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐       │
+│  │  Kiosk   │  │   Staff  │  │  Admin   │       │
+│  │ (Browser)│  │(Browser) │  │(Browser) │       │
+│  └────┬─────┘  └────┬─────┘  └────┬─────┘       │
+│       │AJAX         │AJAX         │AJAX         │
+└─────────────────────────────────────────────────┘
         │             │              │
         ▼             ▼              ▼
 ┌─────────────────────────────────────────────────┐
-│              PRESENTATION LAYER                  │
-│  ┌─────────────────────────────────────────┐   │
-│  │         Flask Application (run.py)       │   │
-│  │                                           │   │
-│  │  ┌──────────┐ ┌──────────┐ ┌──────────┐│   │
-│  │  │ Client   │ │  Staff   │ │  Admin   ││   │
-│  │  │Blueprint │ │Blueprint │ │Blueprint ││   │
-│  │  └─────┬────┘ └────┬─────┘ └────┬─────┘│   │
-│  └────────┼───────────┼────────────┼───────┘   │
+│              PRESENTATION LAYER                 │
+│  ┌─────────────────────────────────────────┐    │
+│  │         Flask Application (run.py)      │    │
+│  │                                         │    │
+│  │  ┌──────────┐ ┌──────────┐ ┌──────────┐ │    │
+│  │  │ Client   │ │  Staff   │ │  Admin   │ │    │
+│  │  │Blueprint │ │Blueprint │ │Blueprint │ │    │
+│  │  └─────┬────┘ └────┬─────┘ └────┬─────┘ │    │
+│  └────────┼───────────┼────────────┼───────┘    │
 │           │           │            │            │
-└───────────┼───────────┼────────────┼───────────┘
+└───────────│───────────│────────────│────────────┘
             │           │            │
             ▼           ▼            ▼
 ┌─────────────────────────────────────────────────┐
-│               BUSINESS LOGIC LAYER               │
-│  ┌─────────────────────────────────────────┐   │
-│  │          Models (models.py)              │   │
-│  │  • Organization  • Service               │   │
-│  │  • User          • ServiceProvider       │   │
-│  │  • QueueItem     • Analytics             │   │
-│  │                                           │   │
-│  │  Business Methods:                        │   │
-│  │  - get_position_in_queue()               │   │
-│  │  - calculate_wait_time()                 │   │
-│  │  - mark_serving() / mark_completed()     │   │
-│  └───────────────┬─────────────────────────┘   │
-└─────────────────┼───────────────────────────────┘
-                  │
-                  ▼
+│               BUSINESS LOGIC LAYER              │
+│  ┌─────────────────────────────────────────┐    │
+│  │          Models (models.py)             │    │
+│  │  • Organization  • Service              │    │
+│  │  • User          • ServiceProvider      │    │
+│  │  • QueueItem     • Analytics            │    │
+│  │                                         │    │
+│  │  Business Methods:                      │    │
+│  │  - get_position_in_queue()              │    │
+│  │  - calculate_wait_time()                │    │
+│  │  - mark_serving() / mark_completed()    │    │
+│  └───────────────┬─────────────────────────┘    │
+└──────────────────│──────────────────────────────┘
+                   │
+                   ▼
 ┌─────────────────────────────────────────────────┐
-│               DATA ACCESS LAYER                  │
-│  ┌─────────────────────────────────────────┐   │
-│  │      SQLAlchemy ORM (db object)          │   │
-│  │  • Connection Pooling                     │   │
-│  │  • Query Building                         │   │
-│  │  • Transaction Management                 │   │
-│  └───────────────┬─────────────────────────┘   │
-└─────────────────┼───────────────────────────────┘
-                  │
-                  ▼
+│               DATA ACCESS LAYER                 │
+│  ┌─────────────────────────────────────────┐    │
+│  │      SQLAlchemy ORM (db object)         │    │
+│  │  • Connection Pooling                   │    │
+│  │  • Query Building                       │    │
+│  │  • Transaction Management               │    │
+│  └───────────────┬─────────────────────────┘    │
+└──────────────────│──────────────────────────────┘
+                   │
+                   ▼
 ┌─────────────────────────────────────────────────┐
-│                DATABASE LAYER                    │
-│              MySQL Database                      │
+│                DATABASE LAYER                   │
+│              MySQL Database                     │
 │  • Organizations  • Services  • Users           │
 │  • QueueItems     • Providers • Analytics       │
 └─────────────────────────────────────────────────┘
+
 ```
 
 ### 4.2 Component Breakdown

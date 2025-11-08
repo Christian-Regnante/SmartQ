@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartQ - Staff Dashboard</title>
+    <!-- <link rel="stylesheet" href="../static/css/style.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <div>
+                <h1>Staff Dashboard</h1>
+                <p id="serviceInfo" class="service-info"></p>
+            </div>
+            <a href="/staff/logout" class="logout-btn">Logout</a>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="servedToday">0</div>
+                <div class="stat-label">Served Today</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="waitingCount">0</div>
+                <div class="stat-label">In Queue</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avgServiceTime">0m</div>
+                <div class="stat-label">Avg Service Time</div>
+            </div>
+        </div>
+
+        <div class="dashboard-content">
+            <div class="current-serving" id="currentServing">
+                <h3>Currently Serving</h3>
+                <div id="servingClient" class="serving-empty">No client being served</div>
+            </div>
+
+            <div class="queue-section">
+                <h3>Waiting Queue</h3>
+                <div class="queue-actions">
+                    <button class="primary-btn" onclick="callNext()">📞 Call Next</button>
+                    <button class="secondary-btn" onclick="refreshQueue()">🔄 Refresh</button>
+                </div>
+                <div id="queueList" class="queue-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <!-- <script src="../static/js/dashboard.js"></script> -->
+</body>
+</html>
