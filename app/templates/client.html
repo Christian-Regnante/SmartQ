@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartQ - Queue Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <!-- <link rel="stylesheet" href="../static/css/style.css"> -->
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>SmartQ</h1>
+            <p class="subtitle">Queue Management System</p>
+        </div>
+
+        <div id="org-selection" class="card">
+            <a href="/"><i class="fa-solid fa-arrow-left" style="color: #3498db; cursor: pointer; font-size: 1.2rem;" title="Go To Home"></i></a>
+            <h2>Select Organization</h2>
+            <select id="organizationSelect" class="input-field">
+                <option value="">-- Choose Organization --</option>
+            </select>
+        </div>
+
+        <div id="service-selection" class="card" style="display: none; ">
+            <i onclick="goBackorg()" class="fa-solid fa-arrow-left" style="color: #3498db; cursor: pointer; font-size: 1.2rem;" title="Go Back"></i>
+            <h2>Select Service</h2>
+            <div id="serviceButtons"></div>
+        </div>
+
+        <div id="phone-input" class="card" style="display: none;">
+            <i onclick="goBack()" class="fa-solid fa-arrow-left" style="color: #3498db; cursor: pointer; font-size: 1.2rem;" title="Go Back"></i>
+            <p style="color: red; display: none;" id="validNumber">Please enter a valid phone number</p>
+            <h2>Enter Your Phone Number</h2>
+            <input type="tel" id="phoneNumber" placeholder="+250 7XX XXX XXX" class="input-field">
+            <button onclick="joinQueue()" class="btn btn-primary">Get Ticket</button>
+        </div>
+
+        <div id="ticket-display" class="card" style="display: none;">
+            <div class="ticket">
+                <h2>Your Ticket</h2>
+                <div class="queue-number" id="queueNumber"></div>
+                <div class="ticket-info">
+                    <p><strong>Counter:</strong> <span id="counter"></span></p>
+                    <p><strong>Position:</strong> <span id="position"></span></p>
+                    <p><strong>Est. Wait Time:</strong> <span id="waitTime"></span> min</p>
+                </div>
+                <p class="sms-notice">📱 SMS confirmation sent to your phone</p>
+                <button onclick="reset()" class="btn btn-primary">New Ticket</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- <script src="{{ url_for('static', filename='js/client.js') }}"></script> -->
+    <script src="../static/js/client.js"></script>
+</body>
+</html>
