@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartQ - Now Serving</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/display.css') }}">
+    <!-- <link rel="stylesheet" href="../static/css/display.css"> -->
+</head>
+<body>
+    <div class="display-header">
+        <h1>Now Serving</h1>
+        <div id="clock"></div>
+    </div>
+
+    <div id="servicesDisplay" class="services-grid"></div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const orgId = urlParams.get('org_id');
+
+        if (!orgId) {
+            document.body.innerHTML = '<div class="error">Please provide org_id parameter</div>';
+        }
+
+        async function updateDisplay() {
+            try {
+                const response = await fetch(`/client/api/display-status?org_id=${orgId}`);
+                const services = await response.json();
+                
+                const container = document.getElementById('servicesDisplay');
+                container.innerHTML = services.map(service => `
+                    <div class="service-card">
+                        <div class="service-header">
+                            <h2>${service.service_name}</h2>
+                            <div class="counter">Counter ${service.counter}</div>
+                        </div>
+                        <div class="now-serving">
+                            <div class="label">Now Serving</div>
+                            <div class="ticket-number ${service.now_serving ? 'active' : ''}">
+                                ${service.now_serving || '---'}
+                            </div>
+                        </div>
+                        <div class="queue-info">
+                            <div class="next">Next: <strong>${service.next || '---'}</strong></div>
+                            <div class="waiting">Waiting: <strong>${service.waiting}</strong></div>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error updating display:', error);
+            }
+        }
+
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').textContent = now.toLocaleTimeString();
+        }
+
+        // Update every 3 seconds
+        updateDisplay();
+        setInterval(updateDisplay, 3000);
+        
+        // Update clock every second
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>

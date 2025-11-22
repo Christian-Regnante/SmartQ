@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Dashboard - SmartQ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="../static/css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard">
+        <div class="topbar">
+            <h1>Staff Dashboard</h1>
+            <div>
+                <span id="serviceName"></span> | 
+                <a href="/staff/logout" class="logout-link">Logout</a>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="servedToday">0</div>
+                <div class="stat-label">Served Today</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avgWait">0</div>
+                <div class="stat-label">Avg Wait (min)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="waiting">0</div>
+                <div class="stat-label">Currently Waiting</div>
+            </div>
+        </div>
+
+        <div class="control-panel">
+            <button onclick="callNext()" class="btn btn-large btn-primary">Call Next</button>
+            <div id="currentServing"></div>
+        </div>
+
+        <div class="queue-list">
+            <h2>Queue</h2>
+            <table id="queueTable">
+                <thead>
+                    <tr>
+                        <th>Ticket</th>
+                        <th>Phone</th>
+                        <th>Status</th>
+                        <th>Time</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="queueBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/staff.js') }}"></script>
+    <script src="../static/js/staff.js"></script>
+</body>
+</html>

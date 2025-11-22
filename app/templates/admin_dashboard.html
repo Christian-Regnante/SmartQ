@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - SmartQ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <!-- <link rel="stylesheet" href="../static/css/dashboard.css"> -->
+</head>
+<body>
+    <div class="dashboard">
+        <div class="topbar">
+            <h1>Organization Admin</h1>
+            <div>
+                <span id="orgName"></span> | 
+                <a href="/admin/logout" class="logout-link">Logout</a>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('services')">Services</button>
+            <button class="tab" onclick="showTab('staff')">Staff</button>
+            <button class="tab" onclick="showTab('analytics')">Analytics</button>
+        </div>
+
+        <!-- Services Tab -->
+        <div id="servicesTab" class="tab-content">
+            <div class="section-header">
+                <h2>Services</h2>
+                <button onclick="showServiceForm()" class="btn btn-primary">Add Service</button>
+            </div>
+            
+            <div id="serviceForm" class="form-card" style="display: none;">
+                <h3 id="formTitle">Add Service</h3>
+                <input type="hidden" id="serviceId">
+                <input type="text" id="serviceName" placeholder="Service Name" class="input-field">
+                <input type="text" id="counterNumber" placeholder="Counter Number" class="input-field">
+                <input type="number" id="avgTime" placeholder="Avg Service Time (min)" class="input-field">
+                <div class="form-actions">
+                    <button onclick="saveService()" class="btn btn-primary">Save</button>
+                    <button onclick="cancelForm()" class="btn btn-secondary">Cancel</button>
+                </div>
+            </div>
+
+            <table id="servicesTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Counter</th>
+                        <th>Avg Time</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="servicesBody"></tbody>
+            </table>
+        </div>
+
+        <!-- Staff Tab -->
+        <div id="staffTab" class="tab-content" style="display: none;">
+            <div class="section-header">
+                <h2>Staff Members</h2>
+                <button onclick="showStaffForm()" class="btn btn-primary">Add Staff</button>
+            </div>
+
+            <div id="staffForm" class="form-card" style="display: none;">
+                <h3>Add Staff</h3>
+                <input type="hidden" id="staffId">
+                <input type="text" id="staffUsername" placeholder="Username" class="input-field">
+                <input type="password" id="staffPassword" placeholder="Password" class="input-field">
+                <select id="staffService" class="input-field">
+                    <option value="">Assign Service</option>
+                </select>
+                <div class="form-actions">
+                    <button onclick="saveStaff()" class="btn btn-primary">Save</button>
+                    <button onclick="cancelStaffForm()" class="btn btn-secondary">Cancel</button>
+                </div>
+            </div>
+
+            <table id="staffTable">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Service</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="staffBody"></tbody>
+            </table>
+        </div>
+
+        <!-- Analytics Tab -->
+        <div id="analyticsTab" class="tab-content" style="display: none;">
+            <h2>Analytics (Last 7 Days)</h2>
+            <div id="analyticsData"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+    <!-- <script src="../static/js/admin.js"></script> -->
+</body>
+</html>
