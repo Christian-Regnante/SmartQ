@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Login - SmartQ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="login-card">
+            <a href="/"><i class="fa-solid fa-arrow-left" style="color: #3498db; cursor: pointer; font-size: 1.2rem;"
+                    title="Go To Home"></i></a>
+            <h1>Staff Login</h1>
+            <form id="loginForm">
+                <input type="text" id="username" placeholder="Username" class="input-field" required>
+                <input type="password" id="password" placeholder="Password" class="input-field" required>
+                <button type="submit" class="btn btn-primary">Login</button>
+                <div id="error" class="error-message"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/staff/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    window.location.href = '/staff/dashboard';
+                } else {
+                    document.getElementById('error').textContent = data.error;
+                }
+            } catch (error) {
+                document.getElementById('error').textContent = 'Login failed';
+            }
+        });
+        function goBackstaff() {
+            window.location.href = '/';
+        }
+    </script>
+</body>
+
+</html>
