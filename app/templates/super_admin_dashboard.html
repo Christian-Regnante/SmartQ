@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Admin - SmartQ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <!-- <link rel="stylesheet" href="../static/css/dashboard.css"> -->
+</head>
+<body>
+    <div class="dashboard">
+        <div class="topbar">
+            <h1>Super Admin Dashboard</h1>
+            <a href="/super-admin/logout" class="logout-link">Logout</a>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="totalOrgs">0</div>
+                <div class="stat-label">Organizations</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalAdmins">0</div>
+                <div class="stat-label">Admins</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalStaff">0</div>
+                <div class="stat-label">Staff Members</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalServices">0</div>
+                <div class="stat-label">Services</div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('organizations')">Organizations</button>
+            <button class="tab" onclick="showTab('admins')">Admins</button>
+        </div>
+
+        <!-- Organizations Tab -->
+        <div id="organizationsTab" class="tab-content">
+            <div class="section-header">
+                <h2>Organizations</h2>
+                <button onclick="showOrgForm()" class="btn btn-primary">Add Organization</button>
+            </div>
+
+            <div id="orgForm" class="form-card" style="display: none;">
+                <h3 id="orgFormTitle">Add Organization</h3>
+                <input type="hidden" id="orgId">
+                <input type="text" id="orgName" placeholder="Organization Name" class="input-field">
+                <input type="text" id="orgLocation" placeholder="Location" class="input-field">
+                <input type="text" id="orgContact" placeholder="Contact" class="input-field">
+                <div class="form-actions">
+                    <button onclick="saveOrganization()" class="btn btn-primary">Save</button>
+                    <button onclick="cancelOrgForm()" class="btn btn-secondary">Cancel</button>
+                </div>
+            </div>
+
+            <table id="orgsTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Location</th>
+                        <th>Contact</th>
+                        <th>Admins</th>
+                        <th>Services</th>
+                        <th>Staff</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="orgsBody"></tbody>
+            </table>
+        </div>
+
+        <!-- Admins Tab -->
+        <div id="adminsTab" class="tab-content" style="display: none;">
+            <div class="section-header">
+                <h2>Organization Admins</h2>
+                <button onclick="showAdminForm()" class="btn btn-primary">Add Admin</button>
+            </div>
+
+            <div id="adminForm" class="form-card" style="display: none;">
+                <h3>Add Admin</h3>
+                <input type="hidden" id="adminId">
+                <input type="text" id="adminUsername" placeholder="Username" class="input-field">
+                <input type="password" id="adminPassword" placeholder="Password" class="input-field">
+                <select id="adminOrg" class="input-field">
+                    <option value="">Select Organization</option>
+                </select>
+                <div class="form-actions">
+                    <button onclick="saveAdmin()" class="btn btn-primary">Save</button>
+                    <button onclick="cancelAdminForm()" class="btn btn-secondary">Cancel</button>
+                </div>
+            </div>
+
+            <table id="adminsTable">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Organization</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="adminsBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/super_admin.js') }}"></script>
+    <!-- <script src="../static/js/super_admin.js"></script> -->
+</body>
+</html>
