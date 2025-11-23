@@ -18,6 +18,11 @@ class Config:
         'SECRET_KEY') or 'dev-secret-key-change-in-production'
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         'DATABASE_URL') or 'mysql+pymysql://smartq_user:smartq_password@localhost/smartq_db'
+    # SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+    # f"mysql+pymysql://{os.environ.get('DB_USER','smartq_user')}:" \
+    # f"{os.environ.get('DB_PASSWORD','smartq_password')}@" \
+    # f"{os.environ.get('DB_HOST','db')}/" \
+    # f"{os.environ.get('DB_NAME','smartq_db')}"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ENGINE_OPTIONS = {
         'pool_pre_ping': True,
