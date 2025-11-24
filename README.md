@@ -296,10 +296,131 @@ Clear browser cookies or use incognito mode
 - Payment integration
 - Printer integration for physical tickets
 
+## Deployment (Production Server Setup)
+
+This section explains how SmartQ was deployed on an Ubuntu server using **Nginx**, **Gunicorn**, and **Certbot**, and how the domain `smartq.regnante.tech` was configured.
+
+### 1. Run SmartQ on the Server
+
+Upload the SmartQ project to the server, then create a Python virtual environment:
+
+```bash
+cd /var/www/
+sudo mkdir smartq
+sudo chown $USER:$USER smartq
+cd smartq
+
+python3 -m venv venv
+source venv/bin/activate
+
+pip install -r requirements.txt
+
+python run.py # Test the application
+
+# It should run on:
+http://localhost:5000
+```
+
+## 2. Install and Configure Nginx
+
+### Install Nginx
+
+```bash
+sudo apt update & sudo apt upgrade -y
+sudo apt install nginx -y
+```
+### Configure Nginx
+Edit the Nginx configuration file:
+
+```bash
+sudo nano /etc/nginx/sites-available/smartq
+```
+Add the following configuration:
+
+```nginx
+server {
+    listen 80;
+    #server_name add_your_domain_here.domain; # change this to your domain
+
+    location / {
+        proxy_pass http://127.0.0.1:5000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+Enable the site and reload Nginx:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/smartq /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl reload nginx
+```
+## 3. Docker Setup and Configuration
+### Docker installation
+Step1: Install prerequisites
+```bash
+sudo apt update
+sudo apt install -y apt-transport-https ca-certificates curl software-properties-common gnupg lsb-release
+```
+Step2: Add Docker’s official GPG key
+```bash
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+```
+Step3: Set up the stable repository
+```bash
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+```
+Step4: Update apt and install Docker Engine
+```bash
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io
+```
+Step5: Enable Docker to start on boot
+```bash
+sudo systemctl enable --now docker
+docker --version # Verify installation
+```
+After this the docker should be installed successfully and running on your server.
+
+## 4. Setting up SmartQ application with Docker
+```bash
+cd /var/www/smartq
+```
+In the root directory of the project, you will find two files named `Dockerfile` and `docker-compose.yml`. Use these files to build and run the Docker container for SmartQ.
+
+### Build and run containers
+```bash
+sudo docker-compose up -d --build
+sudo docker ps # Then check if the container is running you should see 2 contianers: smartq_web and smartq_db
+```
+### After running the containers, Test the application if it's running properly.
+```bash
+curl http://localhost:5000 # use curl to test if the application is running
+
+sudo apt install -y curl # if curl is not installed
+```
+
+## 5. configure Nginx as a reverse proxy
+### As the Nginx is already installed in step 2, Now:
+1. We enable the Nginx site configuration for SmartQ.
+```bash
+sudo ln -s /etc/nginx/sites-available/smartq /etc/nginx/sites-enabled/
+```
+2. Test Nginx configuration and reload Nginx.
+```bash
+Sudo nginx -t
+sudo systemctl reload nginx
+```
+
+Now your SmartQ application should be accessible via your server's IP address `http://your_server_ip`
+
 ## Support
 
 For issues or questions, please contact the development team or create an issue in the repository.
-
-## License
 
 © 2024 SmartQ. All rights reserved.
