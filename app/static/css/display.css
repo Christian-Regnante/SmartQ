@@ -1,0 +1,132 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: #1a1a2e;
+    color: white;
+    padding: 20px;
+}
+
+.display-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.display-header h1 {
+    font-size: 48px;
+    font-weight: 300;
+}
+
+#clock {
+    font-size: 32px;
+    font-weight: 300;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+}
+
+.service-card {
+    background: #16213e;
+    border-radius: 12px;
+    padding: 30px;
+    border: 2px solid #0f3460;
+}
+
+.service-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #0f3460;
+}
+
+.service-header h2 {
+    font-size: 28px;
+    font-weight: 400;
+    color: #e94560;
+}
+
+.counter {
+    background: #e94560;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.now-serving {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.label {
+    font-size: 20px;
+    color: #a8dadc;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.ticket-number {
+    font-size: 96px;
+    font-weight: bold;
+    color: #555;
+    font-family: 'Courier New', monospace;
+}
+
+.ticket-number.active {
+    color: #4ecca3;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.queue-info {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 2px solid #0f3460;
+}
+
+.next, .waiting {
+    text-align: center;
+    font-size: 18px;
+    color: #a8dadc;
+}
+
+.next strong, .waiting strong {
+    display: block;
+    font-size: 32px;
+    color: white;
+    margin-top: 8px;
+}
+
+.error {
+    text-align: center;
+    color: #e94560;
+    font-size: 24px;
+    margin-top: 100px;
+}
