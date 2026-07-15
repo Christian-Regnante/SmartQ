@@ -418,6 +418,7 @@ sudo systemctl reload nginx
 ```
 
 Now your SmartQ application should be accessible via your server's IP address `http://your_server_ip`
+https://prod.liveshare.vsengsaas.visualstudio.com/join?3F7D6CB84A77718FAE72747FD93CE38F7103
 
 ## Support
 
